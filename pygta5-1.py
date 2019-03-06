@@ -2,6 +2,7 @@ import numpy as np
 from PIL import ImageGrab
 import cv2
 import time
+from directkeys import PressKey, W, A, S, D
 
 
 def process_img(original_image):
