@@ -12,7 +12,7 @@ MC_WIDTH = 856
 MC_HEIGHT = 482
 WIDTH = MC_WIDTH
 HEIGHT = MC_HEIGHT
-mc_vertices = np.array([[0,0],[0,433],[561,433],[561,338],[WIDTH,338],[WIDTH,0]], np.int32)
+mc_vertices = np.array([[0,0],[0,432],[560,432],[560,337],[WIDTH,337],[WIDTH,0]], np.int32)
 
 
 def roi(img, vertices):
@@ -30,15 +30,25 @@ def roi(img, vertices):
     return masked
 
 
+def draw_lines(img,lines):
+    for line in lines:
+        coords = line[0]
+        cv2.line(img, (coords[0], coords[1]), (coords[2], coords[3]), [255,255,255], 3)
+
+
 def process_img(original_image):
     """
     Edge detection!
     :return: A grayscale image with edges detected
     """
     processed_img = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
-    processed_img = cv2.Canny(processed_img, threshold1=100, threshold2=300)
-
+    processed_img = cv2.Canny(processed_img, threshold1=100, threshold2=250) # 90,250
     processed_img = roi(processed_img, [mc_vertices])
+    processed_img = cv2.GaussianBlur(processed_img, (5, 5), 0)
+    # more info: http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
+    #                         edges       rho   theta   thresh  # min length, max gap:
+    lines = cv2.HoughLinesP(processed_img, 1, np.pi / 180, 100,          100, 50)
+    draw_lines(processed_img, lines)
 
     return processed_img
 
