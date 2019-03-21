@@ -4,10 +4,11 @@ import cv2
 import time
 from directkeys import PressKey, ReleaseKey, W, A, S, D
 
-
-WIDTH = 800
-HEIGHT = 640
-vertices = [np.array([[10,500],[10,300],[300,200],[500,200],[WIDTH,300],[WIDTH,500]], np.int32)]
+MC_WIDTH = 856
+MC_HEIGHT = 482
+WIDTH = MC_WIDTH
+HEIGHT = MC_HEIGHT
+vertices = [np.array([[0,0],[0,432],[560,432],[560,337],[WIDTH,337],[WIDTH,0]], np.int32)]
 
 
 def roi(img):
